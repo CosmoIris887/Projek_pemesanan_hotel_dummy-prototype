@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grand Luxe Hotel - Dashboard</title>
+  <link rel="stylesheet" href="styles.css?v=1.1">
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- Navbar Header -->
+    <header>
+      <div class="nav-bar">
+        <div class="logo-section" id="navLogo">
+          <div class="logo-icon">P</div>
+          <span>Grand lucky</span>
+        </div>
+        
+        <!-- Search bar in navigation -->
+        <div class="search-nav" id="headerSearchWrapper">
+          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+          </svg>
+          <input type="text" id="headerSearchInput" placeholder="Cari hotel berdasarkan nama atau lokasi..." data-translate-placeholder="searchPlaceholder">
+        </div>
+        
+        <div class="nav-actions">
+          <!-- Language Toggle -->
+          <button class="lang-switch" id="langToggle">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" style="width:16px; height:16px;">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253" />
+            </svg>
+            <span id="langText">EN</span>
+          </button>
+          
+          <!-- Auth area -->
+          <div id="navAuthArea">
+            <button class="btn btn-primary" id="openAuthModalBtn" data-translate="loginSignUp">Masuk / Daftar</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main View Section -->
+    <main>
+      
+      <!-- HERO BANNER -->
+      <div class="hero-banner">
+        <h1 class="hero-title" id="heroTitle" data-translate="heroTitle">Temukan Penginapan <span>Impian Anda</span></h1>
+        <p class="hero-desc" id="heroDesc" data-translate="heroDesc">Nikmati kemewahan dan kenyamanan tiada tara di berbagai pilihan hotel terbaik kami dengan harga terbaik.</p>
+      </div>
+
+      <!-- FILTER CONTAINER -->
+      <div class="dashboard-search-container">
+        <div class="dashboard-search-bar">
+          <div class="search-field-group">
+            <label data-translate="searchLocation">Lokasi / Nama Hotel</label>
+            <div class="search-field-input">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25s-7.5-4.108-7.5-11.25a7.5 7.5 0 1115 0z" />
+              </svg>
+              <input type="text" id="dashboardSearchInput" placeholder="Cari lokasi, kota, atau nama..." data-translate-placeholder="searchPlaceholder">
+            </div>
+          </div>
+          <div class="search-field-group">
+            <label data-translate="filterLocation">Filter Lokasi</label>
+            <div class="search-field-input">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12.75 3.03v.568c0 .334.148.65.405.864l4.038 3.349c.446.37.514 1.022.146 1.47l-2.978 3.63a1.125 1.125 0 01-1.607.15l-3.16-2.63a1.5 1.5 0 00-1.896-.061l-4.58 3.61a.75.75 0 00-.282.593v5.69c0 .414.336.75.75.75h14.25a.75.75 0 00.75-.75v-10.5a.75.75 0 00-.75-.75h-.75" />
+              </svg>
+              <select id="locationFilter">
+                <option value="" data-translate="allLocations">Semua Lokasi</option>
+              </select>
+            </div>
+          </div>
+          <button class="btn btn-primary" id="searchBtn" style="height: 46px;" data-translate="searchButton">Cari</button>
+        </div>
+      </div>
+
+      <!-- HOTELS SECTION -->
+      <div style="margin-top: 3rem;">
+        <div class="section-header">
+          <h2 data-translate="availableHotels">Daftar Hotel Tersedia</h2>
+        </div>
+        <div class="hotel-grid" id="hotelGrid">
+          <div style="grid-column: 1/-1; text-align: center; padding: 3rem 0;">
+            <div class="spinner" style="margin: 0 auto 1rem;"></div>
+            <p data-translate="loadingHotels">Memuat daftar hotel...</p>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 Grand Luxe Hotel Group. All rights reserved. Serviced via Front-End integration.</p>
+    </footer>
+
+  </div>
+
+  <!-- AUTH MODAL -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title" id="authModalTitle" data-translate="signUpTitle">Daftar Akun</h3>
+        <button class="modal-close-btn" id="closeAuthModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        
+        <form id="signUpForm" class="booking-form">
+          <div class="form-group">
+            <label data-translate="fullName">Nama Lengkap</label>
+            <input type="text" id="signUpName" required placeholder="Masukkan nama Anda...">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="signUpEmail" required placeholder="Masukkan email Anda...">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="signUpPassword" required placeholder="Buat password baru...">
+          </div>
+          
+          <div class="captcha-container">
+            <div class="captcha-header">
+              <span class="captcha-question" data-translate="captchaQuestion">Are you human?</span>
+              <span class="captcha-refresh" id="refreshCaptcha" data-translate="refreshCaptcha">Acak</span>
+            </div>
+            <div class="captcha-input-group">
+              <span id="captchaMathQuestion" style="font-weight: 700; font-size: 1.1rem; align-self: center; width: 60px;">5 + 4 = </span>
+              <input type="number" id="captchaAnswer" required placeholder="Jawaban..." data-translate-placeholder="captchaAnswer">
+            </div>
+            <div class="captcha-status" id="captchaStatus"></div>
+          </div>
+          
+          <button type="submit" class="btn btn-primary" style="padding: 0.8rem;" data-translate="signUpButton">Daftar</button>
+          
+          <p style="font-size: 0.85rem; text-align: center; color: var(--text-muted);">
+            <span data-translate="haveAccount">Sudah punya akun?</span>
+            <a href="#" id="switchToLoginBtn" style="font-weight: 600;" data-translate="loginLink">Masuk</a>
+          </p>
+        </form>
+
+        <form id="loginForm" class="booking-form" style="display: none;">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="loginEmail" required placeholder="Email terdaftar Anda...">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" required placeholder="Password Anda...">
+          </div>
+          
+          <button type="submit" class="btn btn-primary" style="padding: 0.8rem;" data-translate="loginButton">Masuk</button>
+          
+          <p style="font-size: 0.85rem; text-align: center; color: var(--text-muted);">
+            <span data-translate="noAccount">Belum punya akun?</span>
+            <a href="#" id="switchToSignUpBtn" style="font-weight: 600;" data-translate="signUpLink">Daftar Sekarang</a>
+          </p>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE SIDE BAR PANEL -->
+  <div class="profile-overlay" id="profileOverlay"></div>
+  <div class="profile-panel" id="profilePanel">
+    <div class="profile-header">
+      <h3 class="modal-title" data-translate="profile">Profil Saya</h3>
+      <button class="profile-close-btn" id="closeProfilePanelBtn">&times;</button>
+    </div>
+    <div class="profile-body">
+      <div class="profile-user-card">
+        <div class="profile-avatar-large" id="profileAvatar">U</div>
+        <div class="profile-user-details">
+          <span class="profile-user-name" id="profileName">Nama Pengguna</span>
+          <span class="profile-user-email" id="profileEmail">user@gmail.com</span>
+        </div>
+      </div>
+      
+      <div class="profile-balance-section">
+        <div class="form-group" style="gap: 0.25rem;">
+          <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;" data-translate="saldo">Saldo Saya</span>
+          <span class="balance-amount" id="profileBalance">Rp 0</span>
+        </div>
+        <button class="btn btn-outline" id="topUpBtn" data-translate="topUp">Top Up</button>
+      </div>
+
+      <div class="form-group" style="gap: 0.5rem;">
+        <label data-translate="myBookingDetails">Detail Pesanan Saya</label>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-val" id="statTotal">0</span>
+            <span class="stat-label" data-translate="totalOrders">Total</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-val" id="statUnpaid" style="color: var(--danger);">0</span>
+            <span class="stat-label" data-translate="unpaid">Belum Bayar</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-val" id="statPending" style="color: var(--warning);">0</span>
+            <span class="stat-label" data-translate="pending">Pending</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-val" id="statSuccess" style="color: var(--success);">0</span>
+            <span class="stat-label" data-translate="success">Sukses</span>
+          </div>
+        </div>
+        
+        <div class="stat-card" style="margin-top: 0.5rem; text-align: left; padding: 0.75rem 1.2rem; flex-direction: row; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.85rem; font-weight: 600;" data-translate="totalSuccessPurchases">Total Belanja Sukses</span>
+          <span id="profileTotalSpend" style="font-weight: 800; color: var(--success); font-size: 1.05rem;">Rp 0</span>
+        </div>
+      </div>
+
+      <div class="form-group" style="gap: 0.5rem;">
+        <h4 class="history-title" data-translate="transactionHistory">Riwayat Transaksi</h4>
+        <div class="booking-history-list" id="profileBookingsList">
+          <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 1rem 0;" data-translate="noTransactions">Belum ada transaksi.</p>
+        </div>
+      </div>
+
+      <div class="form-group" style="gap: 0.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 0.5rem;">
+        <h4 data-translate="changeProfile">Ubah Email & Password</h4>
+        <form id="changeProfileForm" class="booking-form" style="gap: 1rem; margin-top: 0.5rem;">
+          <div class="form-group">
+            <label data-translate="newEmail">Email Baru</label>
+            <input type="email" id="changeEmail" required placeholder="Masukkan email baru...">
+          </div>
+          <div class="form-group">
+            <label data-translate="oldPassword">Password Lama</label>
+            <input type="password" id="changeOldPassword" required placeholder="Password lama untuk konfirmasi...">
+          </div>
+          <div class="form-group">
+            <label data-translate="newPassword">Password Baru</label>
+            <input type="password" id="changeNewPassword" required placeholder="Masukkan password baru...">
+          </div>
+          <button type="submit" class="btn btn-secondary" style="padding: 0.75rem;" data-translate="updateButton">Simpan Perubahan</button>
+        </form>
+      </div>
+      
+      <button class="btn btn-outline" id="logoutBtn" style="border-color: var(--danger); color: var(--danger); width: 100%; margin-top: 1.5rem; padding: 0.75rem;" data-translate="logout">Keluar</button>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

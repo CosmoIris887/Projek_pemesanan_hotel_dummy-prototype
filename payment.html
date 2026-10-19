@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grand Luxe Hotel - Pembayaran</title>
+  <link rel="stylesheet" href="styles.css?v=1.1">
+</head>
+
+<body>
+
+  <div class="app-container">
+
+    <!-- Navbar Header -->
+    <header>
+      <div class="nav-bar">
+        <div class="logo-section" id="navLogo">
+          <div class="logo-icon">H</div>
+          <span>Grand Luxe</span>
+        </div>
+
+        <div class="nav-actions">
+          <!-- Language Switcher -->
+          <button class="lang-switch" id="langToggle">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+              stroke="currentColor" style="width:16px; height:16px;">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 21a9.004 9.004 0 008.716-6.747M12 21a9.004 9.004 0 01-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 017.843 4.582M12 3a8.997 8.997 0 00-7.843 4.582m15.686 0A11.953 11.953 0 0112 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0121 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0112 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 013 12c0-.778.099-1.533.284-2.253" />
+            </svg>
+            <span id="langText">EN</span>
+          </button>
+
+          <!-- Auth Widget -->
+          <div id="navAuthArea">
+            <button class="btn btn-primary" id="openAuthModalBtn" data-translate="loginSignUp">Masuk / Daftar</button>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+
+      <!-- 1. Active Payment Forms (shown before confirmation) -->
+      <div id="paymentActiveSection" class="payment-wrapper">
+        <div class="payment-main-card">
+          <h2 data-translate="choosePayment">Metode Pembayaran</h2>
+
+          <!-- Timeout Countdown Timer -->
+          <div class="timer-box">
+            <div class="timer-info">
+              <span class="timer-label" data-translate="timeRemaining">Batas Waktu Pembayaran</span>
+              <span class="timer-val" id="paymentTimer">59:59</span>
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+              stroke="currentColor" style="width: 32px; height: 32px; color: var(--danger);">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+
+          <!-- Payment Methods grid selector -->
+          <div class="payment-methods-grid">
+            <div class="payment-method-card selected" data-method="qris">
+              <div class="payment-method-icon">QR</div>
+              <div class="payment-method-name">QRIS</div>
+            </div>
+            <div class="payment-method-card" data-method="dana">
+              <div class="payment-method-icon">D</div>
+              <div class="payment-method-name">DANA</div>
+            </div>
+            <div class="payment-method-card" data-method="shopeepay">
+              <div class="payment-method-icon">S</div>
+              <div class="payment-method-name">ShopeePay</div>
+            </div>
+            <div class="payment-method-card" data-method="saldogrand">
+              <div class="payment-method-icon">SG</div>
+              <div class="payment-method-name">Saldo Akun (Grand Saldo)</div>
+            </div>
+            <div class="payment-method-card" data-method="cash">
+              <div class="payment-method-icon">C</div>
+              <div class="payment-method-name">Cash (Resepsionis)</div>
+            </div>
+          </div>
+
+          <!-- Selected Method Details form -->
+          <div class="payment-detail-box" id="paymentDetailsArea">
+            <!-- QRIS placeholder content -->
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+            <button class="btn btn-primary" id="confirmPaymentBtn" style="padding: 0.85rem;"
+              data-translate="confirmPayment">Konfirmasi Pembayaran</button>
+            <button class="btn btn-secondary" id="cancelPaymentBtn" data-translate="cancel">Batalkan Pemesanan</button>
+          </div>
+        </div>
+
+        <!-- Summary card -->
+        <div class="payment-summary-card">
+          <h3 data-translate="bookingDetails">Rincian Pemesanan</h3>
+          <div class="pricing-summary" style="background: none; border: none; padding: 0;">
+            <div class="summary-row" style="margin-bottom: 0.5rem;">
+              <span data-translate="hotel">Hotel</span>
+              <span id="paymentSummaryHotel" style="font-weight: 600; color: white;">-</span>
+            </div>
+            <div class="summary-row" style="margin-bottom: 0.5rem;">
+              <span data-translate="selectedRoom">Kamar Terpilih</span>
+              <span id="paymentSummaryRoom" style="font-weight: 600; color: white;">-</span>
+            </div>
+            <div class="summary-row" style="margin-bottom: 0.5rem;">
+              <span data-translate="checkInDate">Tanggal Check-in</span>
+              <span id="paymentSummaryCheckIn" style="font-weight: 600; color: white;">-</span>
+            </div>
+            <div class="summary-row" style="margin-bottom: 0.5rem;">
+              <span data-translate="checkOutDate">Tanggal Check-out</span>
+              <span id="paymentSummaryCheckOut" style="font-weight: 600; color: white;">-</span>
+            </div>
+            <div class="summary-row" style="margin-bottom: 0.5rem;">
+              <span data-translate="nightsLabel">Jumlah Malam</span>
+              <span id="paymentSummaryNights" style="font-weight: 600; color: white;">-</span>
+            </div>
+            <div class="summary-row total" style="margin-top: 1rem;">
+              <span data-translate="totalPrice">Total Harga</span>
+              <span id="paymentSummaryTotalPrice">Rp 0</span>
+            </div>
+          </div>
+
+          <!-- Testing controls -->
+          <div class="simulation-panel">
+            <div class="simulation-title">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2"
+                stroke="currentColor" style="width: 14px; height: 14px;">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                  d="M11.42 15.17L17.25 21A2.67 2.67 0 1113.5 17.25l-5.83-5.83m.002 0a1.5 1.5 0 01-2.004-2.004l5.83-5.83A2.67 2.67 0 0115 7.5L9.17 13.33m-1.58 1.58l-5.83 5.83A2.67 2.67 0 010 17.25l5.83-5.83M6.25 15H9v-2.75" />
+              </svg>
+              <span data-translate="simulationPanel">Simulator Panel (Testing)</span>
+            </div>
+            <div class="simulation-buttons">
+              <button class="btn btn-outline" id="simImmediateTimeoutBtn" style="font-size: 0.75rem; padding: 0.4rem;"
+                data-translate="simTimeout">Simulasi Timeout</button>
+              <button class="btn btn-outline" id="simFailPaymentBtn" style="font-size: 0.75rem; padding: 0.4rem;"
+                data-translate="simFail">Simulasi Gagal</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. Invoice Receipt View (shown after confirmation) -->
+      <div id="receiptSection" class="receipt-wrapper" style="display: none;">
+        <div class="receipt-card">
+          <div class="receipt-header-banner">
+            <div class="receipt-check-circle">✓</div>
+            <h2 data-translate="receiptSuccess">Pembayaran Sukses!</h2>
+            <p style="font-size: 0.85rem; opacity: 0.95;" data-translate="receiptOrderSuccess">Kamar Anda telah berhasil
+              dipesan dan dikonfirmasi.</p>
+          </div>
+
+          <div class="receipt-body">
+            <div class="receipt-row">
+              <span class="label" data-translate="invoiceNumber">Nomor Transaksi</span>
+              <span class="val" id="receiptInvoiceNo">#INV-2026-0001</span>
+            </div>
+            <div class="receipt-row">
+              <span class="label" data-translate="receiptDate">Tanggal Transaksi</span>
+              <span class="val" id="receiptDate">2026-06-18</span>
+            </div>
+            <div class="receipt-row">
+              <span class="label" data-translate="hotel">Hotel</span>
+              <span class="val" id="receiptHotel">-</span>
+            </div>
+            <div class="receipt-row">
+              <span class="label" data-translate="room">Kamar</span>
+              <span class="val" id="receiptRoom">-</span>
+            </div>
+
+            <div class="receipt-divider"></div>
+
+            <div class="receipt-row">
+              <span class="label" data-translate="checkInDate">Tanggal Check-in</span>
+              <span class="val" id="receiptCheckIn">-</span>
+            </div>
+            <div class="receipt-row">
+              <span class="label" data-translate="checkOutDate">Tanggal Check-out</span>
+              <span class="val" id="receiptCheckOut">-</span>
+            </div>
+            <div class="receipt-row">
+              <span class="label" data-translate="paymentMethod">Metode Pembayaran</span>
+              <span class="val" id="receiptMethod">-</span>
+            </div>
+
+            <div class="receipt-divider"></div>
+
+            <div class="receipt-row total">
+              <span data-translate="amountPaid">Total yang Dibayar</span>
+              <span id="receiptAmountPaid">Rp 0</span>
+            </div>
+
+            <div id="receiptCashArea"
+              style="margin-top: 1rem; display: none; text-align: center; border-top: 1px dashed var(--border-color); padding-top: 1rem;">
+              
+              <!-- Countdown Timer for Cash Payment -->
+              <div id="receiptCashCountdownArea" style="margin-bottom: 1rem; display: none;">
+                <div class="timer-box" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(245, 158, 11, 0.05)); border: 1px solid rgba(245, 158, 11, 0.3); display: flex; align-items: center; justify-content: space-between; padding: 0.75rem 1rem; border-radius: var(--radius-md);">
+                  <div class="timer-info" style="text-align: left; display: flex; flex-direction: column; gap: 0.25rem;">
+                    <span class="timer-label" id="receiptCashCountdownLabel" style="color: var(--accent-gold); font-size: 0.75rem; font-weight: 700; text-transform: uppercase;" data-translate="cashTimerLabel">Sisa Waktu Pembayaran Tunai</span>
+                    <span class="timer-val" id="receiptCashCountdownVal" style="font-size: 1.4rem; font-family: monospace; font-weight: 700; color: #ffffff;">-</span>
+                  </div>
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" style="width: 28px; height: 28px; color: var(--accent-gold);">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                </div>
+              </div>
+
+              <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 0.5rem;">Tunjukkan QR Code ini ke
+                Resepsionis untuk pembayaran tunai:</p>
+              <div
+                style="background: white; padding: 0.5rem; width: 120px; height: 120px; margin: 0.5rem auto; border-radius: var(--radius-sm);">
+                <svg viewBox="0 0 100 100" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M5,5 h30 v30 h-30 z M10,10 h20 v20 h-20 z M5,65 h30 v30 h-30 z M10,70 h20 v20 h-20 z M65,5 h30 v30 h-30 z M70,10 h20 v20 h-20 z M45,15 h10 v10 h-10 z M45,45 h10 v10 h-10 z M15,45 h10 v10 h-10 z M65,45 h10 v10 h-10 z M65,65 h10 v10 h-10 z M85,85 h10 v10 h-10 z M55,75 h20 v10 h-20 z M45,65 h10 v10 h-10 z M75,55 h10 v15 h-10 z"
+                    fill="#000000" />
+                  <rect x="42" y="42" width="16" height="16" fill="var(--danger)" />
+                </svg>
+              </div>
+              <p style="font-size: 0.75rem; color: var(--danger); font-weight: 600;">(Hanya Staf Hotel yang Dapat
+                Memindai)</p>
+              <button class="btn btn-secondary" id="receiptCashCancelBtn" style="width: 100%; margin-top: 0.5rem; background-color: transparent; border-color: var(--danger); color: var(--danger); padding: 0.6rem; font-size: 0.85rem; font-weight: 600; cursor: pointer;">Batalkan Pesanan</button>
+            </div>
+
+            <div style="margin-top: 1rem; display: flex; flex-direction: column; gap: 0.5rem;">
+              <button class="btn btn-primary" id="receiptBackBtn" data-translate="backToDashboard">Kembali ke
+                Dashboard</button>
+              <button class="btn btn-secondary" id="receiptHistoryBtn" data-translate="viewMyBookings">Lihat Riwayat
+                Transaksi</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer>
+      <p>&copy; 2026 Grand Luxe Hotel Group. All rights reserved. Serviced via Front-End integration.</p>
+    </footer>
+
+  </div>
+
+  <!-- AUTH MODAL -->
+  <div class="modal-overlay" id="authModal">
+    <div class="modal-window">
+      <div class="modal-header">
+        <h3 class="modal-title" id="authModalTitle" data-translate="signUpTitle">Daftar Akun</h3>
+        <button class="modal-close-btn" id="closeAuthModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+
+        <form id="signUpForm" class="booking-form">
+          <div class="form-group">
+            <label data-translate="fullName">Nama Lengkap</label>
+            <input type="text" id="signUpName" required placeholder="Masukkan nama Anda...">
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="signUpEmail" required placeholder="Masukkan email Anda...">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="signUpPassword" required placeholder="Buat password baru...">
+          </div>
+
+          <div class="captcha-container">
+            <div class="captcha-header">
+              <span class="captcha-question" data-translate="captchaQuestion">Are you human?</span>
+              <span class="captcha-refresh" id="refreshCaptcha" data-translate="refreshCaptcha">Acak</span>
+            </div>
+            <div class="captcha-input-group">
+              <span id="captchaMathQuestion"
+                style="font-weight: 700; font-size: 1.1rem; align-self: center; width: 60px;">5 + 4 = </span>
+              <input type="number" id="captchaAnswer" required placeholder="Jawaban..."
+                data-translate-placeholder="captchaAnswer">
+            </div>
+            <div class="captcha-status" id="captchaStatus"></div>
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="padding: 0.8rem;"
+            data-translate="signUpButton">Daftar</button>
+
+          <p style="font-size: 0.85rem; text-align: center; color: var(--text-muted);">
+            <span data-translate="haveAccount">Sudah punya akun?</span>
+            <a href="#" id="switchToLoginBtn" style="font-weight: 600;" data-translate="loginLink">Masuk</a>
+          </p>
+        </form>
+
+        <form id="loginForm" class="booking-form" style="display: none;">
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" id="loginEmail" required placeholder="Email terdaftar Anda...">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="loginPassword" required placeholder="Password Anda...">
+          </div>
+
+          <button type="submit" class="btn btn-primary" style="padding: 0.8rem;"
+            data-translate="loginButton">Masuk</button>
+
+          <p style="font-size: 0.85rem; text-align: center; color: var(--text-muted);">
+            <span data-translate="noAccount">Belum punya akun?</span>
+            <a href="#" id="switchToSignUpBtn" style="font-weight: 600;" data-translate="signUpLink">Daftar Sekarang</a>
+          </p>
+        </form>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- PROFILE SIDE BAR PANEL -->
+  <div class="profile-overlay" id="profileOverlay"></div>
+  <div class="profile-panel" id="profilePanel">
+    <div class="profile-header">
+      <h3 class="modal-title" data-translate="profile">Profil Saya</h3>
+      <button class="profile-close-btn" id="closeProfilePanelBtn">&times;</button>
+    </div>
+    <div class="profile-body">
+      <div class="profile-user-card">
+        <div class="profile-avatar-large" id="profileAvatar">U</div>
+        <div class="profile-user-details">
+          <span class="profile-user-name" id="profileName">Nama Pengguna</span>
+          <span class="profile-user-email" id="profileEmail">user@gmail.com</span>
+        </div>
+      </div>
+
+      <div class="profile-balance-section">
+        <div class="form-group" style="gap: 0.25rem;">
+          <span style="font-size: 0.75rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase;"
+            data-translate="saldo">Saldo Saya</span>
+          <span class="balance-amount" id="profileBalance">Rp 0</span>
+        </div>
+        <button class="btn btn-outline" id="topUpBtn" data-translate="topUp">Top Up</button>
+      </div>
+
+      <div class="form-group" style="gap: 0.5rem;">
+        <label data-translate="myBookingDetails">Detail Pesanan Saya</label>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <span class="stat-val" id="statTotal">0</span>
+            <span class="stat-label" data-translate="totalOrders">Total</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-val" id="statUnpaid" style="color: var(--danger);">0</span>
+            <span class="stat-label" data-translate="unpaid">Belum Bayar</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-val" id="statPending" style="color: var(--warning);">0</span>
+            <span class="stat-label" data-translate="pending">Pending</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-val" id="statSuccess" style="color: var(--success);">0</span>
+            <span class="stat-label" data-translate="success">Sukses</span>
+          </div>
+        </div>
+
+        <div class="stat-card"
+          style="margin-top: 0.5rem; text-align: left; padding: 0.75rem 1.2rem; flex-direction: row; justify-content: space-between; align-items: center;">
+          <span style="font-size: 0.85rem; font-weight: 600;" data-translate="totalSuccessPurchases">Total Belanja
+            Sukses</span>
+          <span id="profileTotalSpend" style="font-weight: 800; color: var(--success); font-size: 1.05rem;">Rp 0</span>
+        </div>
+      </div>
+
+      <div class="form-group" style="gap: 0.5rem;">
+        <h4 class="history-title" data-translate="transactionHistory">Riwayat Transaksi</h4>
+        <div class="booking-history-list" id="profileBookingsList">
+          <p style="font-size: 0.85rem; color: var(--text-muted); text-align: center; padding: 1rem 0;"
+            data-translate="noTransactions">Belum ada transaksi.</p>
+        </div>
+      </div>
+
+      <div class="form-group"
+        style="gap: 0.5rem; border-top: 1px solid var(--border-color); padding-top: 1.5rem; margin-top: 0.5rem;">
+        <h4 data-translate="changeProfile">Ubah Email & Password</h4>
+        <form id="changeProfileForm" class="booking-form" style="gap: 1rem; margin-top: 0.5rem;">
+          <div class="form-group">
+            <label data-translate="newEmail">Email Baru</label>
+            <input type="email" id="changeEmail" required placeholder="Masukkan email baru...">
+          </div>
+          <div class="form-group">
+            <label data-translate="oldPassword">Password Lama</label>
+            <input type="password" id="changeOldPassword" required placeholder="Password lama untuk konfirmasi...">
+          </div>
+          <div class="form-group">
+            <label data-translate="newPassword">Password Baru</label>
+            <input type="password" id="changeNewPassword" required placeholder="Masukkan password baru...">
+          </div>
+          <button type="submit" class="btn btn-secondary" style="padding: 0.75rem;" data-translate="updateButton">Simpan
+            Perubahan</button>
+        </form>
+      </div>
+
+      <button class="btn btn-outline" id="logoutBtn"
+        style="border-color: var(--danger); color: var(--danger); width: 100%; margin-top: 1.5rem; padding: 0.75rem;"
+        data-translate="logout">Keluar</button>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
